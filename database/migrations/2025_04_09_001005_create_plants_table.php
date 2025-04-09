@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('species')->nullable();
             $table->string('genus')->nullable();
             $table->string('family')->nullable();
-            $table->json('common_names')->nullable(); # must json_encode() when inserting, but outputs as an array
+            $table->json('common_names')->nullable(); # store array of common names, outputs as array too
             $table->timestamps();
         });
     }
