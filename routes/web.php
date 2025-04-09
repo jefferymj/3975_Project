@@ -5,12 +5,14 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::get('home', function () {
-    return view('home');
+Route::get('/identify', function () {
+    return view('react');
 });
 
 
@@ -21,4 +23,3 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
