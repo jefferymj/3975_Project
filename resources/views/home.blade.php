@@ -4,9 +4,8 @@
         <div class="col-md-12">
             <h1 class="post-title">Id and id your plants here:</h1>
             <p>
-                <a href="{{ url('/identify') }}">
-                    Launch Plant Identifier
-                </a>
+                <a href="{{ url('/identify') }}" class="btn btn-success">Launch Identifier</a>
+                
             </p>
         </div>
     </div>

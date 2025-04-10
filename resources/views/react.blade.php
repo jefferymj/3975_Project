@@ -8,8 +8,9 @@
     @vite(['resources/js/app.tsx', 'resources/css/app.css'])
 </head>
 
-<body class="bg-green-50">
+<body class="bg-white text-gray-900">
     <div id="root"></div>
+
 </body>
 
 </html>
