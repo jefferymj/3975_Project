@@ -25,7 +25,7 @@
         </div>
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <div class="text-green-600 text-2xl mb-4">🔍</div>
-            <h3 class="text-lg font-medium text-gray-900">Detailed Information</h3>
+            <h3 class="text-lg font-medium text-gray-900">Detailed Information (Coming Soon)</h3>
             <p class="mt-2 text-gray-500">Get detailed information about plant species, including care instructions and characteristics.</p>
         </div>
     </div>
