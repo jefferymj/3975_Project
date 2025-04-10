@@ -3,12 +3,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home'); // or 'welcome'
+    return view('welcome'); 
 });
 
 Route::get('/identify', function () {
     return view('react');
-});
+})->middleware(['auth', 'verified'])->name('identify');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

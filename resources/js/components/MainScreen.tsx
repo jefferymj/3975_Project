@@ -27,10 +27,14 @@ const MainScreen: React.FC = () => {
         formData.append('image', image);
 
         try {
-            const res = await fetch('http://localhost:8000/api/identify-plant', {
+            const res = await fetch('/api/identify-plant', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
             });
 
             if (!res.ok) {

@@ -1,21 +1,25 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-
-                    <a href="{{ url('/') }}" class="inline-block mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                        ← Go to Home Page
-                    </a>
-                </div>
-            </div>
+@section('content')
+    <!-- Plant Identification Section -->
+    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+        <div class="p-6 text-gray-900">
+            <h1 class="text-2xl font-bold mb-4">Identify Your Plants</h1>
+            <p class="mb-4">Use our advanced plant identification tool to discover what plants you have.</p>
+            <a href="{{ url('/identify') }}" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-150">
+                Launch Identifier
+            </a>
         </div>
     </div>
-</x-app-layout>
+
+    <!-- Plants Info Card Section -->
+    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6 text-gray-900">
+            <h1 class="text-2xl font-bold mb-4">Plants Information</h1>
+            <p class="mb-4">Detailed information about your identified plants will be displayed here.</p>
+            <p class="text-green-600 hover:text-green-800">
+                <a href="#" class="transition duration-150">View More Details →</a>
+            </p>
+        </div>
+    </div>
+@endsection
