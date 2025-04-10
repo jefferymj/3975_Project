@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './MainScreen.css';  // temp css
+import './MainScreen.css'; // optional
 
 const MainScreen: React.FC = () => {
     const [image, setImage] = useState<File | null>(null);
@@ -7,7 +7,6 @@ const MainScreen: React.FC = () => {
     const [result, setResult] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -31,6 +30,7 @@ const MainScreen: React.FC = () => {
             const res = await fetch('http://localhost:8000/api/identify-plant', {
                 method: 'POST',
                 body: formData,
+                credentials: 'include',
             });
 
             if (!res.ok) {
@@ -38,9 +38,11 @@ const MainScreen: React.FC = () => {
             }
 
             const data = await res.json();
-            setResult(data);
+            console.log('✅ Received from Laravel:', data);
+            setResult(data.plantnet_data); // we only care about plantnet_data here
+
         } catch (err: any) {
-            console.error('Failed to identify plant', err);
+            console.error('❌ Failed to identify plant', err);
             setResult(null);
             setError('Could not identify this plant. Please try another image.');
         } finally {
@@ -79,18 +81,19 @@ const MainScreen: React.FC = () => {
 
             {result && result.results && result.results.length > 0 && (
                 <div className="result-card">
-                    {result.results[0].species.commonNames && result.results[0].species.commonNames.length > 0 && (
-                        <h1><strong>{result.results[0].species.commonNames[0]}</strong></h1>
+                    {result.results[0].species.commonNames?.length > 0 && (
+                        <h1 className="text-2xl font-bold">
+                            {result.results[0].species.commonNames[0]}
+                        </h1>
                     )}
                     <p><strong>Species:</strong> {result.results[0].species.scientificNameWithoutAuthor}</p>
                     <p><strong>Genus:</strong> {result.results[0].species.genus.scientificNameWithoutAuthor}</p>
                     <p><strong>Family:</strong> {result.results[0].species.family.scientificNameWithoutAuthor}</p>
-                    {result.results[0].species.commonNames && result.results[0].species.commonNames.length > 0 && (
-                        <p><strong>Common Names:</strong> {result.results[0].species.commonNames.join(', ')}</p>
-                    )}
+                    <p><strong>Common Names:</strong> {result.results[0].species.commonNames?.join(', ') || 'N/A'}</p>
                 </div>
             )}
         </div>
     );
 };
+
 export default MainScreen;
