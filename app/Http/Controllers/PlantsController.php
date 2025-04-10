@@ -12,8 +12,9 @@ class PlantsController extends Controller
      */
     public function index()
     {
-        return Plant::all();
+        return Plant::latest()->get();
     }
+
 
     /**
      * Show the form for creating a new resource.

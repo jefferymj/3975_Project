@@ -14,27 +14,32 @@ const MainScreen: React.FC = () => {
         if (file) {
             setImage(file);
             setPreview(URL.createObjectURL(file));
+            setResult(null);
+            setError(null);
         }
     };
 
     const handleIdentify = async () => {
         if (!image) return;
         setLoading(true);
+        setError(null);
+
         const formData = new FormData();
         formData.append('image', image);
 
         try {
-            setError(null);
-            const res = await fetch('http://localhost:8000/api/identify-plant', { //route aint working so cant test
+            const res = await fetch('http://localhost:8000/api/identify-plant', {
                 method: 'POST',
                 body: formData,
             });
+
             if (!res.ok) {
-                throw new Error('API request failed');
+                throw new Error(`API request failed with status ${res.status}`);
             }
+
             const data = await res.json();
             setResult(data);
-        } catch (err) {
+        } catch (err: any) {
             console.error('Failed to identify plant', err);
             setResult(null);
             setError('Could not identify this plant. Please try another image.');
@@ -67,24 +72,25 @@ const MainScreen: React.FC = () => {
             </button>
 
             {error && (
-                <div className="error-message" style={{ textAlign: 'center' }}>
+                <div className="error-message">
                     {error}
                 </div>
             )}
 
-            {result && (
+            {result && result.results && result.results.length > 0 && (
                 <div className="result-card">
-                    <h2>Result:</h2>
-                    <p><strong>Species:</strong> {result.species || 'N/A'}</p>
-                    <p><strong>Genus:</strong> {result.genus || 'N/A'}</p>
-                    <p><strong>Family:</strong> {result.family || 'N/A'}</p>
-                    {result.common_names?.length > 0 && (
-                        <p><strong>Common Names:</strong> {result.common_names.join(', ')}</p>
+                    {result.results[0].species.commonNames && result.results[0].species.commonNames.length > 0 && (
+                        <h1><strong>{result.results[0].species.commonNames[0]}</strong></h1>
+                    )}
+                    <p><strong>Species:</strong> {result.results[0].species.scientificNameWithoutAuthor}</p>
+                    <p><strong>Genus:</strong> {result.results[0].species.genus.scientificNameWithoutAuthor}</p>
+                    <p><strong>Family:</strong> {result.results[0].species.family.scientificNameWithoutAuthor}</p>
+                    {result.results[0].species.commonNames && result.results[0].species.commonNames.length > 0 && (
+                        <p><strong>Common Names:</strong> {result.results[0].species.commonNames.join(', ')}</p>
                     )}
                 </div>
             )}
         </div>
     );
 };
-
 export default MainScreen;
